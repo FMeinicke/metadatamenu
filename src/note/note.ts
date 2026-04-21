@@ -48,8 +48,11 @@ export class Note {
     public renderValueString(_rawValue: string, fieldType?: FieldType, indentationLevel: number = 0): string {
         if (_rawValue) {
             if (_rawValue.startsWith("[[") || _rawValue.startsWith("![[")) {
-                return `"${_rawValue}"`
-            } else if (_rawValue.startsWith("#")) {
+                return `"${_rawValue}"`;
+            } else if (_rawValue.startsWith("[")) {
+                const indentation = "\n  - ";
+                return `${indentation}${_rawValue.slice(1,-1).split(",").map((v) => v.trim()).join(indentation)}`;
+            } else if(_rawValue.startsWith("#")) {
                 return `${_rawValue}`;
             } else if (fieldType && rawObjectTypes.includes(fieldType)) {
                 const indentation = `\n${"  ".repeat(indentationLevel + 1)}`
